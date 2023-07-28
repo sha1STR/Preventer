@@ -1,0 +1,16 @@
+C:\Users\siroz\source\repos\Preventer\bin\Release\Preventer.exe.config
+C:\Users\siroz\source\repos\Preventer\bin\Release\Preventer.exe
+C:\Users\siroz\source\repos\Preventer\bin\Release\Preventer.pdb
+C:\Users\siroz\source\repos\Preventer\obj\Release\Preventer.csproj.AssemblyReference.cache
+C:\Users\siroz\source\repos\Preventer\obj\Release\Preventer.csproj.SuggestedBindingRedirects.cache
+C:\Users\siroz\source\repos\Preventer\obj\Release\MainWindow.g.cs
+C:\Users\siroz\source\repos\Preventer\obj\Release\App.g.cs
+C:\Users\siroz\source\repos\Preventer\obj\Release\Preventer_MarkupCompile.cache
+C:\Users\siroz\source\repos\Preventer\obj\Release\Preventer_MarkupCompile.lref
+C:\Users\siroz\source\repos\Preventer\obj\Release\MainWindow.baml
+C:\Users\siroz\source\repos\Preventer\obj\Release\Preventer.g.resources
+C:\Users\siroz\source\repos\Preventer\obj\Release\Preventer.Properties.Resources.resources
+C:\Users\siroz\source\repos\Preventer\obj\Release\Preventer.csproj.GenerateResource.cache
+C:\Users\siroz\source\repos\Preventer\obj\Release\Preventer.csproj.CoreCompileInputs.cache
+C:\Users\siroz\source\repos\Preventer\obj\Release\Preventer.exe
+C:\Users\siroz\source\repos\Preventer\obj\Release\Preventer.pdb

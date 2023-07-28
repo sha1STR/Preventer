@@ -1,0 +1,16 @@
+C:\Users\siroz\source\repos\Preventer\bin\Debug\Preventer.exe.config
+C:\Users\siroz\source\repos\Preventer\bin\Debug\Preventer.exe
+C:\Users\siroz\source\repos\Preventer\bin\Debug\Preventer.pdb
+C:\Users\siroz\source\repos\Preventer\obj\Debug\Preventer.csproj.AssemblyReference.cache
+C:\Users\siroz\source\repos\Preventer\obj\Debug\Preventer.csproj.SuggestedBindingRedirects.cache
+C:\Users\siroz\source\repos\Preventer\obj\Debug\MainWindow.g.cs
+C:\Users\siroz\source\repos\Preventer\obj\Debug\App.g.cs
+C:\Users\siroz\source\repos\Preventer\obj\Debug\Preventer_MarkupCompile.cache
+C:\Users\siroz\source\repos\Preventer\obj\Debug\Preventer_MarkupCompile.lref
+C:\Users\siroz\source\repos\Preventer\obj\Debug\MainWindow.baml
+C:\Users\siroz\source\repos\Preventer\obj\Debug\Preventer.g.resources
+C:\Users\siroz\source\repos\Preventer\obj\Debug\Preventer.Properties.Resources.resources
+C:\Users\siroz\source\repos\Preventer\obj\Debug\Preventer.csproj.GenerateResource.cache
+C:\Users\siroz\source\repos\Preventer\obj\Debug\Preventer.csproj.CoreCompileInputs.cache
+C:\Users\siroz\source\repos\Preventer\obj\Debug\Preventer.exe
+C:\Users\siroz\source\repos\Preventer\obj\Debug\Preventer.pdb
