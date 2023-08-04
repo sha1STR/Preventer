@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -27,10 +27,7 @@ namespace Preventer
         public string saveAppPath = System.IO.Path.Combine(dictPath, appFileName);
         public string saveProcPath = System.IO.Path.Combine(dictPath, procFileName);
         public List<string> appName = new List<string>();
-        public string manifestAdm = 
-            "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<assembly manifestVersion=\"1.0\" xmlns=\"urn:schemas-microsoft-com:asm.v1\">\r\n  <assemblyIdentity version=\"1.0.0.0\" name=\"MyApplication.app\" />\r\n  <trustInfo xmlns=\"urn:schemas-microsoft-com:asm.v2\">\r\n    <security>\r\n      <requestedPrivileges xmlns=\"urn:schemas-microsoft-com:asm.v3\">\r\n        <!-- UAC Manifest Options\r\n             If you want to change the Windows User Account Control level replace the \r\n             requestedExecutionLevel node with one of the following.\r\n\r\n        <requestedExecutionLevel  level=\"asInvoker\" uiAccess=\"false\" />\r\n        <requestedExecutionLevel  level=\"requireAdministrator\" uiAccess=\"false\" />\r\n        <requestedExecutionLevel  level=\"highestAvailable\" uiAccess=\"false\" />\r\n\r\n            Specifying requestedExecutionLevel element will disable file and registry virtualization. \r\n            Remove this element if your application requires this virtualization for backwards\r\n            compatibility.\r\n        -->\r\n        <requestedExecutionLevel level=\"highestAvailable\" uiAccess=\"false\" />\r\n      </requestedPrivileges>\r\n      <applicationRequestMinimum>\r\n        <defaultAssemblyRequest permissionSetReference=\"Custom\" />\r\n        <PermissionSet class=\"System.Security.PermissionSet\" version=\"1\" ID=\"Custom\" SameSite=\"site\" />\r\n      </applicationRequestMinimum>\r\n    </security>\r\n  </trustInfo>\r\n  <compatibility xmlns=\"urn:schemas-microsoft-com:compatibility.v1\">\r\n    <application>\r\n      <!-- A list of the Windows versions that this application has been tested on\r\n           and is designed to work with. Uncomment the appropriate elements\r\n           and Windows will automatically select the most compatible environment. -->\r\n      <!-- Windows Vista -->\r\n      <!--<supportedOS Id=\"{e2011457-1546-43c5-a5fe-008deee3d3f0}\" />-->\r\n      <!-- Windows 7 -->\r\n      <!--<supportedOS Id=\"{35138b9a-5d96-4fbd-8e2d-a2440225f93a}\" />-->\r\n      <!-- Windows 8 -->\r\n      <!--<supportedOS Id=\"{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}\" />-->\r\n      <!-- Windows 8.1 -->\r\n      <!--<supportedOS Id=\"{1f676c76-80e1-4239-95bb-83d0f6d0da78}\" />-->\r\n      <!-- Windows 10 -->\r\n      <!--<supportedOS Id=\"{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}\" />-->\r\n    </application>\r\n  </compatibility>\r\n  <!-- Indicates that the application is DPI-aware and will not be automatically scaled by Windows at higher\r\n       DPIs. Windows Presentation Foundation (WPF) applications are automatically DPI-aware and do not need \r\n       to opt in. Windows Forms applications targeting .NET Framework 4.6 that opt into this setting, should \r\n       also set the 'EnableWindowsFormsHighDpiAutoResizing' setting to 'true' in their app.config. \r\n       \r\n       Makes the application long-path aware. See https://docs.microsoft.com/windows/win32/fileio/maximum-file-path-limitation -->\r\n  <!--\r\n  <application xmlns=\"urn:schemas-microsoft-com:asm.v3\">\r\n    <windowsSettings>\r\n      <dpiAware xmlns=\"http://schemas.microsoft.com/SMI/2005/WindowsSettings\">true</dpiAware>\r\n      <longPathAware xmlns=\"http://schemas.microsoft.com/SMI/2016/WindowsSettings\">true</longPathAware>\r\n    </windowsSettings>\r\n  </application>\r\n  -->\r\n  <!-- Enable themes for Windows common controls and dialogs (Windows XP and later) -->\r\n  <!--\r\n  <dependency>\r\n    <dependentAssembly>\r\n      <assemblyIdentity\r\n          type=\"win32\"\r\n          name=\"Microsoft.Windows.Common-Controls\"\r\n          version=\"6.0.0.0\"\r\n          processorArchitecture=\"*\"\r\n          publicKeyToken=\"6595b64144ccf1df\"\r\n          language=\"*\"\r\n        />\r\n    </dependentAssembly>\r\n  </dependency>\r\n  -->\r\n</assembly>";
-        public string manifest =
-            "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<assembly manifestVersion=\"1.0\" xmlns=\"urn:schemas-microsoft-com:asm.v1\">\r\n  <assemblyIdentity version=\"1.0.0.0\" name=\"MyApplication.app\" />\r\n  <trustInfo xmlns=\"urn:schemas-microsoft-com:asm.v2\">\r\n    <security>\r\n      <requestedPrivileges xmlns=\"urn:schemas-microsoft-com:asm.v3\">\r\n        <!-- UAC Manifest Options\r\n             If you want to change the Windows User Account Control level replace the \r\n             requestedExecutionLevel node with one of the following.\r\n\r\n        <requestedExecutionLevel  level=\"asInvoker\" uiAccess=\"false\" />\r\n        <requestedExecutionLevel  level=\"requireAdministrator\" uiAccess=\"false\" />\r\n        <requestedExecutionLevel  level=\"highestAvailable\" uiAccess=\"false\" />\r\n\r\n            Specifying requestedExecutionLevel element will disable file and registry virtualization. \r\n            Remove this element if your application requires this virtualization for backwards\r\n            compatibility.\r\n        -->\r\n        <requestedExecutionLevel level=\"asInvoker\" uiAccess=\"false\" />\r\n      </requestedPrivileges>\r\n      <applicationRequestMinimum>\r\n        <defaultAssemblyRequest permissionSetReference=\"Custom\" />\r\n        <PermissionSet class=\"System.Security.PermissionSet\" version=\"1\" ID=\"Custom\" SameSite=\"site\" />\r\n      </applicationRequestMinimum>\r\n    </security>\r\n  </trustInfo>\r\n  <compatibility xmlns=\"urn:schemas-microsoft-com:compatibility.v1\">\r\n    <application>\r\n      <!-- A list of the Windows versions that this application has been tested on\r\n           and is designed to work with. Uncomment the appropriate elements\r\n           and Windows will automatically select the most compatible environment. -->\r\n      <!-- Windows Vista -->\r\n      <!--<supportedOS Id=\"{e2011457-1546-43c5-a5fe-008deee3d3f0}\" />-->\r\n      <!-- Windows 7 -->\r\n      <!--<supportedOS Id=\"{35138b9a-5d96-4fbd-8e2d-a2440225f93a}\" />-->\r\n      <!-- Windows 8 -->\r\n      <!--<supportedOS Id=\"{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}\" />-->\r\n      <!-- Windows 8.1 -->\r\n      <!--<supportedOS Id=\"{1f676c76-80e1-4239-95bb-83d0f6d0da78}\" />-->\r\n      <!-- Windows 10 -->\r\n      <!--<supportedOS Id=\"{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}\" />-->\r\n    </application>\r\n  </compatibility>\r\n  <!-- Indicates that the application is DPI-aware and will not be automatically scaled by Windows at higher\r\n       DPIs. Windows Presentation Foundation (WPF) applications are automatically DPI-aware and do not need \r\n       to opt in. Windows Forms applications targeting .NET Framework 4.6 that opt into this setting, should \r\n       also set the 'EnableWindowsFormsHighDpiAutoResizing' setting to 'true' in their app.config. \r\n       \r\n       Makes the application long-path aware. See https://docs.microsoft.com/windows/win32/fileio/maximum-file-path-limitation -->\r\n  <!--\r\n  <application xmlns=\"urn:schemas-microsoft-com:asm.v3\">\r\n    <windowsSettings>\r\n      <dpiAware xmlns=\"http://schemas.microsoft.com/SMI/2005/WindowsSettings\">true</dpiAware>\r\n      <longPathAware xmlns=\"http://schemas.microsoft.com/SMI/2016/WindowsSettings\">true</longPathAware>\r\n    </windowsSettings>\r\n  </application>\r\n  -->\r\n  <!-- Enable themes for Windows common controls and dialogs (Windows XP and later) -->\r\n  <!--\r\n  <dependency>\r\n    <dependentAssembly>\r\n      <assemblyIdentity\r\n          type=\"win32\"\r\n          name=\"Microsoft.Windows.Common-Controls\"\r\n          version=\"6.0.0.0\"\r\n          processorArchitecture=\"*\"\r\n          publicKeyToken=\"6595b64144ccf1df\"\r\n          language=\"*\"\r\n        />\r\n    </dependentAssembly>\r\n  </dependency>\r\n  -->\r\n</assembly>";
+        
 
         public DispatcherTimer Timer = new DispatcherTimer();
 
@@ -110,8 +107,10 @@ namespace Preventer
             for (int i = 0; i <= 24; i++)
             {
                 HoursList.Items.Add(i);
-            }      
-
+            }
+            SecondsList.SelectedIndex = 0;
+            MinutesList.SelectedIndex = 0;
+            HoursList.SelectedIndex = 0;
         }
         public void fileEdit()
         {
@@ -232,44 +231,9 @@ namespace Preventer
         //
         // Controls
         private void startAppButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (HoursList.SelectedIndex > 0 && MinutesList.SelectedIndex > 0 && SecondsList.SelectedIndex > 0)
-            {
-                finish = new TimeSpan(DateTime.Now.Hour + HoursList.SelectedIndex, DateTime.Now.Minute + MinutesList.SelectedIndex, DateTime.Now.Second + SecondsList.SelectedIndex);
-                WithTimer = true;
-            }
-            else if (HoursList.SelectedIndex <= 0 && MinutesList.SelectedIndex > 0 && SecondsList.SelectedIndex > 0)
-            {
-                finish = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute + MinutesList.SelectedIndex, DateTime.Now.Second + SecondsList.SelectedIndex);
-                WithTimer = true;
-            }
-            else if (HoursList.SelectedIndex > 0 && MinutesList.SelectedIndex <= 0 && SecondsList.SelectedIndex > 0)
-            {
-                finish = new TimeSpan(DateTime.Now.Hour + HoursList.SelectedIndex, DateTime.Now.Minute, DateTime.Now.Second + SecondsList.SelectedIndex);
-                WithTimer = true;
-            }
-            else if (HoursList.SelectedIndex > 0 && MinutesList.SelectedIndex > 0 && SecondsList.SelectedIndex <= 0)
-            {
-                finish = new TimeSpan(DateTime.Now.Hour + HoursList.SelectedIndex, DateTime.Now.Minute + MinutesList.SelectedIndex, DateTime.Now.Second);
-                WithTimer = true;
-            }
-            else if (HoursList.SelectedIndex <= 0 && MinutesList.SelectedIndex <= 0 && SecondsList.SelectedIndex > 0)
-            {
-                finish = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second + SecondsList.SelectedIndex);
-                WithTimer = true;
-            }
-            else if (HoursList.SelectedIndex <= 0 && MinutesList.SelectedIndex > 0 && SecondsList.SelectedIndex <= 0)
-            {
-                finish = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute + MinutesList.SelectedIndex, DateTime.Now.Second);
-                WithTimer = true;
-            }
-            else if (HoursList.SelectedIndex > 0 && MinutesList.SelectedIndex <= 0 && SecondsList.SelectedIndex <= 0)
-            {
-                finish = new TimeSpan(DateTime.Now.Hour + HoursList.SelectedIndex, DateTime.Now.Minute, DateTime.Now.Second);
-                WithTimer = true;
-            }
-            else WithTimer = false;
-
+        {            
+            finish = new TimeSpan(DateTime.Now.Hour + HoursList.SelectedIndex, DateTime.Now.Minute + MinutesList.SelectedIndex, DateTime.Now.Second + SecondsList.SelectedIndex);
+                        
             startPressed = !startPressed;
 
             if (startPressed)
@@ -343,6 +307,16 @@ namespace Preventer
 
         }
 
-        
+        private void ToggleTimerButton_Checked(object sender, RoutedEventArgs e)
+        {
+            TimerGrid.Visibility = Visibility.Visible;
+            WithTimer = true;
+        }
+
+        private void ToggleTimerButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            TimerGrid.Visibility = Visibility.Hidden;
+            WithTimer = false;
+        }
     }
 }
