@@ -15,19 +15,19 @@ namespace Preventer
     /// </summary>
     public partial class MainWindow : Window
     {
-        public bool startPressed = false;
-        public List<string> selectedApp = new List<string>();
-        public List<string> selectedProc = new List<string>();
-        public List<string> procName = new List<string>();
+        public static bool startPressed = false;
+        public static List<string> selectedApp = new List<string>();
+        public static List<string> selectedProc = new List<string>();
+        public static List<string> appName = new List<string>();
+        public static List<string> procName = new List<string>();
         public static string userName = Environment.UserName;
         public static string appPath = $"C:/users/{userName}/Documents";
         public static string dictPath = System.IO.Path.Combine(appPath, "Preventer");
         public static string appFileName = "appBase.txt";
         public static string procFileName = "procBase.txt";
-        public string saveAppPath = System.IO.Path.Combine(dictPath, appFileName);
-        public string saveProcPath = System.IO.Path.Combine(dictPath, procFileName);
-        public List<string> appName = new List<string>();
-        
+        public static string saveAppPath = System.IO.Path.Combine(dictPath, appFileName);
+        public static string saveProcPath = System.IO.Path.Combine(dictPath, procFileName);        
+
 
         public DispatcherTimer Timer = new DispatcherTimer();
 
@@ -42,7 +42,7 @@ namespace Preventer
             fileEdit();
             SetTimerComponents();
             TimerSettings();
-            
+
         }
         // Backend
         public void TimerSettings()
@@ -52,7 +52,7 @@ namespace Preventer
             Timer.Start();
         }
         public void TimerTick(object sender, EventArgs e)
-        {            
+        {
             if (WithTimer)
             {
                 if (startPressed && new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second) >= finish && finish != new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second))
@@ -61,7 +61,7 @@ namespace Preventer
                 }
                 else if (startPressed)
                 {
-                    Program();
+                    Program.ProcessKilling();
                     Progress.Content = finish - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                     statusLabel.Foreground = Brushes.Green;
                     statusLabel.Content = "Active";
@@ -79,7 +79,7 @@ namespace Preventer
             {
                 if (startPressed)
                 {
-                    Program();
+                    Program.ProcessKilling();
                     statusLabel.Foreground = Brushes.Green;
                     statusLabel.Content = "Active";
                     startAppButton.Content = "Stop";
@@ -134,66 +134,10 @@ namespace Preventer
             }
         }
 
-        public void GetAppName()
-        {
-            appName.Clear();
-            procName.Clear();
-            selectedProc.Clear();
-            selectedProc = System.IO.File.ReadAllLines(saveProcPath).ToList();
-
-            Process[] processes = Process.GetProcesses().OrderBy(process => process.ProcessName).ToArray();
-            foreach (Process process in processes)
-            {
-                try
-                {
-                    if (!selectedApp.Contains(process.MainWindowTitle)
-                        && process.MainWindowTitle != "Preventer"
-                        && !process.MainWindowTitle.Contains("Microsoft")
-                        && !appName.Contains(process.MainWindowTitle)
-                        && process.MainWindowTitle.Length > 0
-                        //&& !selectedProc.Contains(process.ProcessName)
-                        && process.MainModule.FileName != "")
-                    {
-                        appName.Add(process.MainWindowTitle);
-                    }
-                    
-                    if (selectedApp.Contains(process.MainWindowTitle)
-                        && !selectedProc.Contains(process.ProcessName))
-                    {
-                        selectedProc.Add(process.ProcessName);
-                    }
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message);
-                }
-
-            }
-        }
-        public void Program()
-        {
-            Process[] processes = Process.GetProcesses(); // creates a massive of all the processes
-
-            foreach (Process process in processes) // this line speaks for itself
-            {
-                try
-                {
-                    
-                    if (selectedProc.Contains(process.ProcessName)) // checks whether the process is not allowed
-                    {
-                        process.Kill(); // prevents the app from being opened during the session
-                    }
-                }
-                catch
-                {
-                    
-                }
-                
-            }
-        }
+        
         public void resetLists()
         {
-            GetAppName();
+            Program.GetAppName();
             appAddListBox.Items.Clear();
             foreach (string name in appName)
             {
@@ -209,10 +153,11 @@ namespace Preventer
                 System.IO.File.WriteAllLines(saveAppPath, selectedApp);
                 System.IO.File.WriteAllLines(saveProcPath, selectedProc);
             }
-            catch
+            catch (Exception e)
             {
-                
+                Console.WriteLine(e.Message);
             }
+
         }
         //
         // Switching Pages        
@@ -231,9 +176,9 @@ namespace Preventer
         //
         // Controls
         private void startAppButton_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             finish = new TimeSpan(DateTime.Now.Hour + HoursList.SelectedIndex, DateTime.Now.Minute + MinutesList.SelectedIndex, DateTime.Now.Second + SecondsList.SelectedIndex);
-                        
+
             startPressed = !startPressed;
 
             if (startPressed)
