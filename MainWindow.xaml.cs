@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,25 +15,16 @@ namespace Preventer
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static bool startPressed = false;
-        public static List<string> selectedApp = new List<string>();
-        public static List<string> selectedProc = new List<string>();
-        public static List<string> appName = new List<string>();
-        public static List<string> procName = new List<string>();
+        TimerClass timerClass = new TimerClass();
         public static string userName = Environment.UserName;
         public static string appPath = $"C:/users/{userName}/Documents";
         public static string dictPath = System.IO.Path.Combine(appPath, "Preventer");
         public static string appFileName = "appBase.txt";
         public static string procFileName = "procBase.txt";
-        public static string saveAppPath = System.IO.Path.Combine(dictPath, appFileName);
-        public static string saveProcPath = System.IO.Path.Combine(dictPath, procFileName);        
+        public string saveAppPath = System.IO.Path.Combine(dictPath, appFileName);
+        public string saveProcPath = System.IO.Path.Combine(dictPath, procFileName);
 
 
-        public DispatcherTimer Timer = new DispatcherTimer();
-
-        public TimeSpan finish;
-        public TimeSpan currentTime;
-        public bool WithTimer = false;
 
         public MainWindow()
         {
@@ -41,58 +32,14 @@ namespace Preventer
             InitializeComponent();
             fileEdit();
             SetTimerComponents();
-            TimerSettings();
-
+            timerClass.TimerSettings();
+            timerClass.Progress = Progress;
+            timerClass.statusLabel = statusLabel;
+            timerClass.startAppButton = startAppButton;
+            timerClass.Program.saveProcPath = saveProcPath;
         }
         // Backend
-        public void TimerSettings()
-        {
-            Timer.Tick += TimerTick;
-            Timer.Interval = TimeSpan.FromMilliseconds(500);
-            Timer.Start();
-        }
-        public void TimerTick(object sender, EventArgs e)
-        {
-            if (WithTimer)
-            {
-                if (startPressed && new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second) >= finish && finish != new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second))
-                {
-                    startPressed = false;
-                }
-                else if (startPressed)
-                {
-                    Program.ProcessKilling();
-                    Progress.Content = finish - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                    statusLabel.Foreground = Brushes.Green;
-                    statusLabel.Content = "Active";
-                    startAppButton.Content = "Stop";
-                }
-                else
-                {
-                    Progress.Content = "00:00:00";
-                    statusLabel.Foreground = Brushes.Gray;
-                    statusLabel.Content = "Disabled";
-                    startAppButton.Content = "Start";
-                }
-            }
-            else
-            {
-                if (startPressed)
-                {
-                    Program.ProcessKilling();
-                    statusLabel.Foreground = Brushes.Green;
-                    statusLabel.Content = "Active";
-                    startAppButton.Content = "Stop";
-                }
-                else
-                {
-                    Progress.Content = "00:00:00";
-                    statusLabel.Foreground = Brushes.Gray;
-                    statusLabel.Content = "Disabled";
-                    startAppButton.Content = "Start";
-                }
-            }
-        }
+        
 
         public void SetTimerComponents()
         {
@@ -117,7 +64,7 @@ namespace Preventer
             // AppName Path
             if (System.IO.File.Exists(saveAppPath))
             {
-                selectedApp = System.IO.File.ReadAllLines(saveAppPath).ToList();
+                timerClass.Program.selectedApp = System.IO.File.ReadAllLines(saveAppPath).ToList();
             }
             else
             {
@@ -126,32 +73,32 @@ namespace Preventer
             // ProcName Path
             if (System.IO.File.Exists(saveProcPath))
             {
-                selectedProc = System.IO.File.ReadAllLines(saveProcPath).ToList();
+                timerClass.Program.selectedProc = System.IO.File.ReadAllLines(saveProcPath).ToList();
             }
             else
             {
-                System.IO.File.Create(saveProcPath);
+                System.IO.File.Create(timerClass.Program.saveProcPath);
             }
         }
 
         
         public void resetLists()
         {
-            Program.GetAppName();
+            timerClass.Program.GetAppName();
             appAddListBox.Items.Clear();
-            foreach (string name in appName)
+            foreach (string name in timerClass.Program.appName)
             {
                 appAddListBox.Items.Add(name);
             }
             appDelListBox.Items.Clear();
-            foreach (string app in selectedApp)
+            foreach (string app in timerClass.Program.selectedApp)
             {
                 appDelListBox.Items.Add(app);
             }
             try
             {
-                System.IO.File.WriteAllLines(saveAppPath, selectedApp);
-                System.IO.File.WriteAllLines(saveProcPath, selectedProc);
+                System.IO.File.WriteAllLines(saveAppPath, timerClass.Program.selectedApp);
+                System.IO.File.WriteAllLines(saveProcPath, timerClass.Program.selectedProc);
             }
             catch (Exception e)
             {
@@ -177,11 +124,11 @@ namespace Preventer
         // Controls
         private void startAppButton_Click(object sender, RoutedEventArgs e)
         {
-            finish = new TimeSpan(DateTime.Now.Hour + HoursList.SelectedIndex, DateTime.Now.Minute + MinutesList.SelectedIndex, DateTime.Now.Second + SecondsList.SelectedIndex);
+            timerClass.finish = new TimeSpan(DateTime.Now.Hour + HoursList.SelectedIndex, DateTime.Now.Minute + MinutesList.SelectedIndex, DateTime.Now.Second + SecondsList.SelectedIndex);
 
-            startPressed = !startPressed;
+            timerClass.startPressed = !timerClass.startPressed;
 
-            if (startPressed)
+            if (timerClass.startPressed)
             {
                 statusLabel.Foreground = Brushes.Green;
                 statusLabel.Content = "Active";
@@ -199,7 +146,7 @@ namespace Preventer
         {
             if (appAddListBox.SelectedItem != null)
             {
-                selectedApp.Add(appAddListBox.SelectedItem.ToString());
+                timerClass.Program.selectedApp.Add(appAddListBox.SelectedItem.ToString());
                 resetLists();
             }
         }
@@ -208,10 +155,10 @@ namespace Preventer
         {
             if (appDelListBox.SelectedItem != null)
             {
-                selectedApp.Remove(appDelListBox.SelectedItem.ToString());
-                selectedProc.Remove(selectedProc[appDelListBox.SelectedIndex]);
-                //MessageBox.Show(selectedProc.ToString());
-                System.IO.File.WriteAllLines(saveProcPath, selectedProc);
+                timerClass.Program.selectedApp.Remove(appDelListBox.SelectedItem.ToString());
+                timerClass.Program.selectedProc.Remove(timerClass.Program.selectedProc[appDelListBox.SelectedIndex]);
+                Console.WriteLine(appDelListBox.SelectedItem.ToString() + $" ({timerClass.Program.selectedProc[appDelListBox.SelectedIndex]}) was removed from the lists.");
+                System.IO.File.WriteAllLines(saveProcPath, timerClass.Program.selectedProc);
                 resetLists();
             }
         }
@@ -255,13 +202,13 @@ namespace Preventer
         private void ToggleTimerButton_Checked(object sender, RoutedEventArgs e)
         {
             TimerGrid.Visibility = Visibility.Visible;
-            WithTimer = true;
+            timerClass.WithTimer = true;
         }
 
         private void ToggleTimerButton_Unchecked(object sender, RoutedEventArgs e)
         {
             TimerGrid.Visibility = Visibility.Hidden;
-            WithTimer = false;
+            timerClass.WithTimer = false;
         }
     }
 }
