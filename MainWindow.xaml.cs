@@ -16,19 +16,15 @@ namespace Preventer
     public partial class MainWindow : Window
     {
         TimerClass timerClass = new TimerClass();
-        public static string userName = Environment.UserName;
-        public static string appPath = $"C:/users/{userName}/Documents";
-        public static string dictPath = System.IO.Path.Combine(appPath, "Preventer");
-        public static string appFileName = "appBase.txt";
-        public static string procFileName = "procBase.txt";
-        public string saveAppPath = System.IO.Path.Combine(dictPath, appFileName);
-        public string saveProcPath = System.IO.Path.Combine(dictPath, procFileName);
-
+        public string dictPath;
+        public string appFileName = "appBase.lst";
+        public string procFileName = "procBase.lst";
+        public string saveAppPath;
+        public string saveProcPath;
 
 
         public MainWindow()
-        {
-            System.IO.Directory.CreateDirectory(dictPath);
+        {            
             InitializeComponent();
             fileEdit();
             SetTimerComponents();
@@ -38,7 +34,7 @@ namespace Preventer
             timerClass.startAppButton = startAppButton;
             timerClass.Program.saveProcPath = saveProcPath;
         }
-        // Backend
+        
         
 
         public void SetTimerComponents()
@@ -61,25 +57,35 @@ namespace Preventer
         }
         public void fileEdit()
         {
-            // AppName Path
-            if (System.IO.File.Exists(saveAppPath))
+            dictPath = Path.Combine(Directory.GetCurrentDirectory(), "Config");
+            Console.WriteLine("dictPath is " + dictPath + ".");
+            if (!Directory.Exists(dictPath))
             {
-                timerClass.Program.selectedApp = System.IO.File.ReadAllLines(saveAppPath).ToList();
+                Directory.CreateDirectory(dictPath);
+                Console.WriteLine(dictPath + " directory was created.");
+            }            
+            saveAppPath = Path.Combine(dictPath, appFileName);
+            saveProcPath = Path.Combine(dictPath, procFileName);
+            timerClass.Program.saveProcPath = saveProcPath;
+            // AppName Path
+            if (File.Exists(saveAppPath))
+            {
+                timerClass.Program.selectedApp = File.ReadAllLines(saveAppPath).ToList();
             }
             else
             {
-                System.IO.File.Create(saveAppPath);
+                File.Create(saveAppPath).Close();
             }
             // ProcName Path
-            if (System.IO.File.Exists(saveProcPath))
+            if (File.Exists(saveProcPath))
             {
-                timerClass.Program.selectedProc = System.IO.File.ReadAllLines(saveProcPath).ToList();
+                timerClass.Program.selectedProc = File.ReadAllLines(saveProcPath).ToList();
             }
             else
             {
-                System.IO.File.Create(timerClass.Program.saveProcPath);
+                File.Create(saveProcPath).Close();
             }
-        }
+        }   
 
         
         public void resetLists()
@@ -97,8 +103,8 @@ namespace Preventer
             }
             try
             {
-                System.IO.File.WriteAllLines(saveAppPath, timerClass.Program.selectedApp);
-                System.IO.File.WriteAllLines(saveProcPath, timerClass.Program.selectedProc);
+                File.WriteAllLines(saveAppPath, timerClass.Program.selectedApp);
+                File.WriteAllLines(saveProcPath, timerClass.Program.selectedProc);
             }
             catch (Exception e)
             {
@@ -155,10 +161,11 @@ namespace Preventer
         {
             if (appDelListBox.SelectedItem != null)
             {
+                string selectedProcName = timerClass.Program.selectedProc[appDelListBox.SelectedIndex];
                 timerClass.Program.selectedApp.Remove(appDelListBox.SelectedItem.ToString());
                 timerClass.Program.selectedProc.Remove(timerClass.Program.selectedProc[appDelListBox.SelectedIndex]);
-                Console.WriteLine(appDelListBox.SelectedItem.ToString() + $" ({timerClass.Program.selectedProc[appDelListBox.SelectedIndex]}) was removed from the lists.");
-                System.IO.File.WriteAllLines(saveProcPath, timerClass.Program.selectedProc);
+                Console.WriteLine(appDelListBox.SelectedItem.ToString() + $" ({selectedProcName}) was removed from the lists.");
+                File.WriteAllLines(saveProcPath, timerClass.Program.selectedProc);
                 resetLists();
             }
         }

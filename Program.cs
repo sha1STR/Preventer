@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Preventer
 {
@@ -27,7 +31,8 @@ namespace Preventer
             appName.Clear();
             procName.Clear();
             selectedProc.Clear();
-            selectedProc = System.IO.File.ReadAllLines(saveProcPath).ToList();
+            selectedProc = File.ReadAllLines(saveProcPath).ToList();
+
 
             Process[] processes = Process.GetProcesses().OrderBy(process => process.ProcessName).ToArray();
             foreach (Process process in processes)
